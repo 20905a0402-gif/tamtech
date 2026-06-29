@@ -17,9 +17,6 @@ jobs:
     name: Build and deploy to Cloudflare Workers
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    defaults:
-      run:
-        working-directory: .
 
     steps:
       - name: Checkout repository
@@ -34,13 +31,24 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Verify required secrets
+      - name: Resolve Cloudflare API token
+        id: cf_token
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
-          if [ -z "${{ secrets.CF_API_TOKEN }}" ]; then
-            echo "::error::Missing GitHub secret CF_API_TOKEN"
+          if [ -n "$CF_API_TOKEN" ]; then
+            echo "token_source=CF_API_TOKEN" >> "$GITHUB_OUTPUT"
+            echo "::add-mask::$CF_API_TOKEN"
+            echo "CLOUDFLARE_API_TOKEN=$CF_API_TOKEN" >> "$GITHUB_ENV"
+          elif [ -n "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "token_source=CLOUDFLARE_API_TOKEN" >> "$GITHUB_OUTPUT"
+            echo "::add-mask::$CLOUDFLARE_API_TOKEN"
+            echo "CLOUDFLARE_API_TOKEN=$CLOUDFLARE_API_TOKEN" >> "$GITHUB_ENV"
+          else
+            echo "::error::Add GitHub secret CF_API_TOKEN (or CLOUDFLARE_API_TOKEN)"
             exit 1
           fi
-          echo "CF_API_TOKEN is set"
 
       - name: Build for Cloudflare (OpenNext)
         run: npm run build:opennext
@@ -49,8 +57,7 @@ jobs:
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
 
       - name: Deploy to Cloudflare Workers
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CF_API_TOKEN }}
-          accountId: 627e869acb907ab3d1f0df37d64c9b65
-          command: deploy
+        run: npx wrangler deploy --verbose
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ env.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 627e869acb907ab3d1f0df37d64c9b65
