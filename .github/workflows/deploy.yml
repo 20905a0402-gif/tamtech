@@ -34,6 +34,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Verify required secrets
+        run: |
+          if [ -z "${{ secrets.CF_API_TOKEN }}" ]; then
+            echo "::error::Missing GitHub secret CF_API_TOKEN"
+            exit 1
+          fi
+          echo "CF_API_TOKEN is set"
+
       - name: Build for Cloudflare (OpenNext)
         run: npm run build:opennext
         env:
@@ -44,4 +52,5 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: 627e869acb907ab3d1f0df37d64c9b65
           command: deploy
