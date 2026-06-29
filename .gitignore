@@ -31,7 +31,10 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
-.env*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # vercel
 .vercel
@@ -39,3 +42,19 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# cloudflare local
+.wrangler/
+.open-next/
+
+# large local product assets (use Supabase Storage)
+EMTOP-Product_Picture/
+EMTOP-Product_Picture.rar
+media-backup/
+_pdf_sample.txt
+scripts/emtop-products.json
+EMTOP_PRICE_LIST_SEPT_2024_FINAL_NEW.pdf
+
+# env
+.env
+.env.local

@@ -1,26 +1,127 @@
 @import "tailwindcss";
 
+@theme {
+  --color-brand-teal: #0d98ba;
+  --color-brand-teal-dark: #0b7a94;
+  --color-brand-teal-light: #e6f4f8;
+  --color-brand-lime: #8ac926;
+  --color-brand-lime-dark: #6fa01e;
+  --color-brand-lime-light: #f0f9e4;
+  --color-surface-grey: #fafafa;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-brand-teal: #0d98ba;
+  --color-brand-teal-dark: #0b7a94;
+  --color-brand-teal-light: #e6f4f8;
+  --color-brand-lime: #8ac926;
+  --color-brand-lime-dark: #6fa01e;
+  --color-brand-lime-light: #f0f9e4;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #ffffff;
+  color: #1a1a1a;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.h-safe-area-inset-bottom {
+  height: env(safe-area-inset-bottom, 0px);
+}
+
+.surface-clean {
+  background-color: #fafafa;
+}
+
+.gradient-brand {
+  background: linear-gradient(135deg, #0d98ba 0%, #0b7a94 100%);
+}
+
+/* Action lime — WhatsApp, cart, in-stock only */
+.btn-action {
+  background-color: var(--color-brand-lime);
+  color: #ffffff;
+}
+
+.btn-action:hover {
+  background-color: var(--color-brand-lime-dark);
+}
+
+.text-brand-teal {
+  color: var(--color-brand-teal);
+}
+
+.bg-brand-teal {
+  background-color: var(--color-brand-teal);
+}
+
+.bg-brand-lime {
+  background-color: var(--color-brand-lime);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fafafa;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out forwards;
 }
