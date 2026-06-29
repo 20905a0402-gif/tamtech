@@ -35,11 +35,7 @@ jobs:
         run: |
           missing=0
           if [ -z "${{ secrets.CLOUDFLARE_API_TOKEN }}" ] && [ -z "${{ secrets.CF_API_TOKEN }}" ]; then
-            echo "::error::Add GitHub secret CLOUDFLARE_API_TOKEN (API token from account 627e869acb907ab3d1f0df37d64c9b65)"
-            missing=1
-          fi
-          if [ -z "${{ secrets.CLOUDFLARE_ACCOUNT_ID }}" ]; then
-            echo "::error::Add GitHub secret CLOUDFLARE_ACCOUNT_ID = 627e869acb907ab3d1f0df37d64c9b65"
+            echo "::error::Add GitHub secret CLOUDFLARE_API_TOKEN (API token scoped to account 627e869acb907ab3d1f0df37d64c9b65)"
             missing=1
           fi
           if [ -z "${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}" ]; then
@@ -67,10 +63,12 @@ jobs:
           fi
 
       - name: Verify Cloudflare credentials
-        run: npx wrangler whoami
+        run: |
+          npx wrangler whoami
+          echo "Expected account: Pivotsc321@gmail.com (627e869acb907ab3d1f0df37d64c9b65)"
         env:
           CLOUDFLARE_API_TOKEN: ${{ env.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_ACCOUNT_ID: 627e869acb907ab3d1f0df37d64c9b65
 
       - name: Build for Cloudflare (OpenNext)
         run: npm run build:opennext
@@ -96,6 +94,6 @@ jobs:
           }
         env:
           CLOUDFLARE_API_TOKEN: ${{ env.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_ACCOUNT_ID: 627e869acb907ab3d1f0df37d64c9b65
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
