@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "account_id": "e37305ece12d903f974d9a0d48a44f20",
+  "account_id": "627e869acb907ab3d1f0df37d64c9b65",
   "name": "tamtech-website",
   "main": ".open-next/worker.js",
   "compatibility_date": "2024-12-30",
@@ -21,9 +21,5 @@
   "observability": {
     "enabled": false
   },
-  "workers_dev": true,
-  "vars": {
-    "NEXT_PUBLIC_SUPABASE_URL": "https://syktgnhsjspjbuihnvbs.supabase.co",
-    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "sb_publishable_xsgtHk3FmMqUG_uhVMX7Sw_0ANuf0b6"
-  }
+  "workers_dev": true
 }
