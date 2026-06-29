@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "account_id": "627e869acb907ab3d1f0df37d64c9b65",
+  "account_id": "e37305ece12d903f974d9a0d48a44f20",
   "name": "tamtech-website",
   "main": ".open-next/worker.js",
   "compatibility_date": "2024-12-30",
