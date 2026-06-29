@@ -62,8 +62,14 @@ jobs:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
 
+      - name: Verify OpenNext build output
+        run: |
+          test -f .open-next/worker.js || (echo "::error::Missing .open-next/worker.js — build failed" && exit 1)
+          test -f .open-next/.build/open-next.config.edge.mjs || (echo "::error::Missing compiled OpenNext config" && exit 1)
+          echo "OpenNext build artifacts OK"
+
       - name: Deploy to Cloudflare Workers
-        run: npx opennextjs-cloudflare deploy
+        run: OPEN_NEXT_DEPLOY=true npx wrangler deploy --verbose
         env:
           CLOUDFLARE_API_TOKEN: ${{ env.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: 627e869acb907ab3d1f0df37d64c9b65
