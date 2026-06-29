@@ -56,6 +56,12 @@ jobs:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
 
+      - name: Verify Cloudflare credentials
+        run: npx wrangler whoami
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ env.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 627e869acb907ab3d1f0df37d64c9b65
+
       - name: Deploy to Cloudflare Workers
         run: npx wrangler deploy --verbose
         env:
