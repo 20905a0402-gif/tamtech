@@ -1,15 +1,15 @@
+import PageHero from "@/components/ui/PageHero";
+import ShopComingSoon from "@/components/shop/ShopComingSoon";
+
 export default function ToolsPage() {
   return (
-    <div className="min-h-screen bg-[#FAFAFA] py-16">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl font-bold text-gray-900">Tools</h1>
-        <p className="mt-4 text-lg text-gray-600">
-          Power tools, hand tools, bench tools, and cordless tools from leading brands.
-        </p>
-        <div className="mt-8 rounded-lg bg-white p-8 shadow-sm">
-          <p className="text-gray-600">Product listings will be displayed here.</p>
-        </div>
-      </div>
-    </div>
+    <main className="min-h-screen bg-[#FAFAFA]">
+      <PageHero
+        variant="compact"
+        title="Tools"
+        subtitle="New arrivals landing very soon"
+      />
+      <ShopComingSoon categoryName="Tools" />
+    </main>
   );
 }

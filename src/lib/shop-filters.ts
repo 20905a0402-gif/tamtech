@@ -76,3 +76,16 @@ export function buildShopUrl(category?: string, sub?: string): string {
   const qs = params.toString();
   return qs ? `/shop?${qs}` : "/shop";
 }
+
+/** Category shop pages that show a coming-soon message instead of products */
+export const COMING_SOON_CATEGORY_IDS = new Set<ShopCategoryId>([
+  "EV",
+  "Materials",
+  "Tools",
+]);
+
+export function isComingSoonCategory(
+  categoryId: ShopCategoryId
+): categoryId is Exclude<ShopCategoryId, "all"> {
+  return COMING_SOON_CATEGORY_IDS.has(categoryId);
+}

@@ -27,6 +27,7 @@ export default function MobileBottomNav() {
   const lastScrollY = useRef(0);
   const onOpenFilters = useShopNavStore((s) => s.onOpenFilters);
   const onOpenSort = useShopNavStore((s) => s.onOpenSort);
+  const hasShopHandlers = Boolean(onOpenFilters && onOpenSort);
 
   const isShopPage = pathname === "/shop" || pathname.startsWith("/shop/");
   const isProductPage = pathname.startsWith("/product/");
@@ -66,7 +67,7 @@ export default function MobileBottomNav() {
 
   if (isHiddenPage) return null;
 
-  const showTools = isShopPage && showShopTools && navVisible;
+  const showTools = isShopPage && showShopTools && navVisible && hasShopHandlers;
 
   return (
     <motion.nav

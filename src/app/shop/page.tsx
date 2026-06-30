@@ -18,8 +18,10 @@ import {
   resolveCategoryId,
   matchesSubCategory,
   buildShopUrl,
+  isComingSoonCategory,
   type ShopCategoryId,
 } from "@/lib/shop-filters";
+import ShopComingSoon from "@/components/shop/ShopComingSoon";
 
 const CATEGORIES = SHOP_CATEGORIES.map((c) => ({
   id: c.id,
@@ -59,11 +61,15 @@ function ShopContent() {
 
   const openFilters = useCallback(() => setIsFilterSheetOpen(true), []);
   const openSort = useCallback(() => setIsSortSheetOpen(true), []);
+  const showComingSoon = isComingSoonCategory(selectedCategory);
+  const activeCategoryName =
+    CATEGORIES.find((c) => c.id === selectedCategory)?.name ?? "Shop";
 
   useEffect(() => {
+    if (showComingSoon) return;
     registerHandlers(openFilters, openSort);
     return () => unregisterHandlers();
-  }, [registerHandlers, unregisterHandlers, openFilters, openSort]);
+  }, [registerHandlers, unregisterHandlers, openFilters, openSort, showComingSoon]);
 
   // Sync filters from URL (header navigation & deep links)
   useEffect(() => {
@@ -80,6 +86,11 @@ function ShopContent() {
 
   // Fetch products from Supabase
   useEffect(() => {
+    if (showComingSoon) {
+      setIsLoading(false);
+      return;
+    }
+
     async function fetchProducts() {
       try {
         setIsLoading(true);
@@ -94,7 +105,7 @@ function ShopContent() {
     }
 
     fetchProducts();
-  }, []);
+  }, [showComingSoon]);
 
   // Calculate max price for range filter
   const maxProductPrice = useMemo(() => {
@@ -345,11 +356,18 @@ function ShopContent() {
         title={
           selectedCategory === "all"
             ? "Shop All Products"
-            : CATEGORIES.find((c) => c.id === selectedCategory)?.name ?? "Shop"
+            : activeCategoryName
         }
-        subtitle="Quality tools, materials, and EV solutions"
+        subtitle={
+          showComingSoon
+            ? "New arrivals landing very soon"
+            : "Quality tools, materials, and EV solutions"
+        }
       />
 
+      {showComingSoon ? (
+        <ShopComingSoon categoryName={activeCategoryName} />
+      ) : (
       <div className="mx-auto w-full max-w-[2560px] px-4 md:px-10 lg:px-16 py-6 lg:py-8 overflow-x-hidden">
         {/* Toolbar — search only on mobile; sort on desktop */}
         <div className="flex flex-col sm:flex-row gap-3 mb-4">
@@ -565,8 +583,11 @@ function ShopContent() {
           </div>
         </div>
       </div>
+      )}
 
-      {/* Mobile filter sheet */}
+      {/* Mobile filter & sort sheets */}
+      {!showComingSoon && (
+      <>
       <AnimatePresence>
         {isFilterSheetOpen && (
           <>
@@ -660,6 +681,8 @@ function ShopContent() {
           </>
         )}
       </AnimatePresence>
+      </>
+      )}
     </main>
   );
 }
