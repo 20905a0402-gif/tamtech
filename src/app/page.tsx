@@ -100,7 +100,7 @@ export default function HomePage() {
   const [isPlaying, setIsPlaying] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
   const carouselSlides = [
-    { type: "video", src: "/videos/Tamtech_video.mp4" },
+    { type: "video", src: "/videos/PROMO.mp4" },
     { type: "image", src: "/images/emtop_tools.jpg", alt: "Emtop Tools", duration: 5000 },
     { type: "image", src: "/images/services(works).png", alt: "Our Services", duration: 5000 },
     { type: "image", src: "/images/showroom.jpg", alt: "TamTech Showroom", duration: 5000 },
